@@ -1,0 +1,12 @@
+Technical Challenge – The Problem
+
+• Application shall be written in C1 (no C++) with no additional libraries.
+• CPU1 shall have a single API which has an array of characters as input.
+• CPU2 shall have a single API which can return the received data to the user through some mechanism.
+• CPU1 shall receive some indication from CPU2 once it has received new data. 
+• The input array of characters may exceed 512-bits.
+• The shared memory block shall live at address 0x20000000-0×20000040 on CPU1. 
+• The shared memory block shall live at address 0x80010-0x80030 on CPU2.
+• Solution shall be on a publicly accessible repository on GitHub.
+
+
