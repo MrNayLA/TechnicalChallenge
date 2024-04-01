@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "CrossCoreIPC.h"
 
 /**
 * Assume that the device has Inter-Processor Communication (IPC) channels as an underlying hardware layer
@@ -28,9 +29,40 @@ uint8_t CPU1_Acquire_IPC_Lock(uint8_t ChannelNo)
 	return 1;//Lock successful
 }
 
-void CPU1_Notify_IPC_Lock(uint8_t ChannelNo)
+void CPU1_Notify_IPC(uint8_t ChannelNo)
 {
 	//This is hardware-dependent part.
+}
+
+void CPU1_SendMessage_IPC(uint8_t ChannelNo,char *Addr, uint32_t DataSize)
+{
+	//Pass starting address of the shared memory and data length to the register of the IPC channel used.
+
+	IPC_Msg_t IpcMsg = {0};
+
+	IpcMsg.ptrMessage = Addr;/* Starting address of data to be sent via IPC */
+	IpcMsg.MsgInfo.bit_view.MessageSize = DataSize;/* data size */
+	IpcMsg.MsgInfo.bit_view.Identifier = enSendNotify;/* Identifier */
+
+	/* Write into the IPC registers. */
+	*IPC_DataReg1 = (uint32_t)IpcMsg.ptrMessage;
+	*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff) || ((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16));
+
+}
+
+
+void CPU1_SendAck(uint8_t ChannelNo)
+{
+	IPC_Msg_t IpcMsg = {0};
+
+	IpcMsg.ptrMessage = 0;/* Starting address of data to be sent via IPC */
+	IpcMsg.MsgInfo.bit_view.MessageSize = 0;/* data size */
+	IpcMsg.MsgInfo.bit_view.Identifier = enSendAck;/* Identifier */
+
+	/* Write into the IPC registers. */
+	*IPC_DataReg1 = (uint32_t)IpcMsg.ptrMessage;
+	*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff) || ((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16));
+
 }
 
 uint8_t CPU1_Release_IPC_Lock(uint8_t ChannelNo)
