@@ -9,7 +9,7 @@
 #define TECHNICALCHALLENGE_CPU1_CROSSCOREMEMAPI_H_
 
 
-uint8_t CPU1_WriteDataSharedMem(char *dest, char *src, uint32_t ByteSize);
+uint8_t CPU1_WriteDataSharedMemory(char *dest, char *src, uint32_t ByteSize);
 
 
 

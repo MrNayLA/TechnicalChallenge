@@ -49,7 +49,7 @@ uint8_t CPU1_Acquire_IPC_Lock(uint8_t ChannelNo);
 
 void CPU1_Notify_IPC(uint8_t ChannelNo);
 
-void CPU1_SendMessage_IPC(uint8_t ChannelNo,char *Addr, uint32_t DataSize);
+void CPU1_SendMessage_IPC(uint8_t ChannelNo,char *StartAddr, uint32_t DataSize);
 
 void CPU1_SendAck(uint8_t ChannelNo);
 

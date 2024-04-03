@@ -9,15 +9,22 @@
 #define TECHNICALCHALLENGE_CPU1_CROSSCORECONFIG_H_
 
 
-#define UsedIPCChannel		(1u)
+#define UsedIPCChannel					(1u)/* Channel number of assumed IPC HW for multi-core communication and synchronisation */
 
 
-#define u32CPU1SharedMemStartAddress		(volatile char *)(0x20000000u)
-#define u32CPU1SharedMemEndAddress			(volatile char *)(0x20000040u)
+#define CPU1SharedMemStartAddress		(volatile char *)(0x20000000u)/* Start address of shared memory block#1 from CPU1 */
+#define CPU1SharedMemEndAddress			(volatile char *)(0x20000040u)/* End address of shared memory block#1 from CPU1 */
 
-#define u32CPU2SharedMemStartAddress		(volatile char *)(0x00080010u)
-#define u32CPU2SharedMemEndAddress			(volatile char *)(0x00080030u)
+#define CPU2SharedMemStartAddress		(volatile char *)(0x00080010u)/* Start address of shared memory block#2 from CPU2 */
+#define CPU2SharedMemEndAddress			(volatile char *)(0x00080030u)/* End address of shared memory block#2 from CPU2 */
 
+#define NumOfSharedMemoryBits			(512u)/* Total number of bits of the shared memory */
+
+
+#define TraceDebugEnabled				(1u)/* Enable or disable debug with printf */
+
+
+#define SimulatedTestEnabled		(1u)/* Enable or disable simulated test */
 
 /**************************************************/
 // If we plan to use the below method (defining linker sections in the intended memory area),

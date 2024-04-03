@@ -34,19 +34,19 @@ void CPU1_Notify_IPC(uint8_t ChannelNo)
 	//This is hardware-dependent part.
 }
 
-void CPU1_SendMessage_IPC(uint8_t ChannelNo,char *Addr, uint32_t DataSize)
+void CPU1_SendMessage_IPC(uint8_t ChannelNo,char *StartAddr, uint32_t DataSize)
 {
 	//Pass starting address of the shared memory and data length to the register of the IPC channel used.
 
 	IPC_Msg_t IpcMsg = {0};
 
-	IpcMsg.ptrMessage = Addr;/* Starting address of data to be sent via IPC */
+	IpcMsg.ptrMessage = StartAddr;/* Starting address of data to be sent via IPC */
 	IpcMsg.MsgInfo.bit_view.MessageSize = DataSize;/* data size */
 	IpcMsg.MsgInfo.bit_view.Identifier = enSendNotify;/* Identifier */
 
-	/* Write into the IPC registers. */
-	*IPC_DataReg1 = (uint32_t)IpcMsg.ptrMessage;
-	*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff) || ((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16));
+	/* Write into the IPC registers. This should be implemented only in real system. */
+	//*IPC_DataReg1 = (uint32_t)IpcMsg.ptrMessage;
+	//*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16) || ((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff));
 
 }
 
@@ -57,11 +57,11 @@ void CPU1_SendAck(uint8_t ChannelNo)
 
 	IpcMsg.ptrMessage = 0;/* Starting address of data to be sent via IPC */
 	IpcMsg.MsgInfo.bit_view.MessageSize = 0;/* data size */
-	IpcMsg.MsgInfo.bit_view.Identifier = enSendAck;/* Identifier */
+	IpcMsg.MsgInfo.bit_view.Identifier = enSendAck;/* Just send Identifier to signal acknowledgement. */
 
-	/* Write into the IPC registers. */
-	*IPC_DataReg1 = (uint32_t)IpcMsg.ptrMessage;
-	*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff) || ((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16));
+	/* Write into the IPC registers.This should be implemented only in real system.  */
+	//*IPC_DataReg1 = (uint32_t)IpcMsg.ptrMessage;
+	//*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16) || ((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff));
 
 }
 
