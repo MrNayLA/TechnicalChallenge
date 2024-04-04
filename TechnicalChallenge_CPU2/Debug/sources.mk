@@ -13,6 +13,6 @@ OBJS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
-CrossCoreComm/src \
+CPU2_CrossCoreComm/src \
 src \
 

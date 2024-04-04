@@ -10,12 +10,11 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-
 #include <string.h>
 
-#include "CrossCoreConfig.h"
-#include "CrossCoreIPC.h"
-#include "CrossCoreMemAPI.h"
+#include "CPU2_CrossCoreConfig.h"
+#include "CPU2_CrossCoreIPC.h"
+#include "CPU2_CrossCoreMemAPI.h"
 
 
 /* 512 bits = 64 bytes in 8-bit addressable core */
