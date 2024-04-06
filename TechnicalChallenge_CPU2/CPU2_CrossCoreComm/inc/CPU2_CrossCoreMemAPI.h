@@ -9,6 +9,9 @@
 #define TECHNICALCHALLENGE_CPU2_CROSSCOREMEMAPI_H_
 
 
+#include <stdlib.h>
+
+
 uint16_t CPU2_ReadSharedMemory(char *userbuff, char *src, uint32_t ByteSize);
 
 

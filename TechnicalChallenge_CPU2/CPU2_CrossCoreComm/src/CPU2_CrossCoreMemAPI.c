@@ -18,19 +18,20 @@ uint16_t CPU2_ReadSharedMemory(char *userbuff, char *src, uint32_t ByteSize)/* c
 {
 	uint16_t RetFlag = 0;
 
-	/* uint16_t is viewd as 1 byte in 16-bit addressable CPU, e.g, sizeof(uint16_t) = 1  */
+	/* uint16_t is viewed as 1 byte in 16-bit addressable CPU, e.g, sizeof(uint16_t) = 1  */
 	/* uint16_t */ char dest[ByteSize];/* Note: char is 16 bits in 16-bit addressable CPU. sizeof(char) = 1, but 16 bit wide */
 
 	/* uint16_t */ char tempSrcBuff[ByteSize * 2];/* Temporarily used the local buffer which is double the size of the copied bytes(16-bit addressable). */
 
 	if(CPU2_Acquire_IPC_Lock(UsedIPCChannel) == 1)/* Acquire IPC channel and lock. */
 	{
+
 		/* Read from shared memory into local buffer before parsing. */
 		Enter_CriticalSection();/* Enter critical section to avoid data corruption */
 		memcpy(dest, src, ByteSize);
 		Exit_CriticalSection();/* Exit critical section after data-write */
 
-		/* Parsing to match with 16-bit addressable CPU architecture */
+		/* Parsing the data to match with 16-bit addressable CPU architecture */
 		for(int i=0;i<ByteSize;i++)
 		{
 			/* 16-bits */ tempSrcBuff[i*2] = dest[i] & (0xff);/* Take lower 8 bits */
@@ -56,6 +57,10 @@ uint16_t CPU2_ReadSharedMemory(char *userbuff, char *src, uint32_t ByteSize)/* c
 		CPU2_Release_IPC_Lock(UsedIPCChannel);/* Release the IPC lock and notify to another core(CPU1). */
 
 		RetFlag = 1;
+
+	}else{
+
+		RetFlag = 0;
 
 	}
 

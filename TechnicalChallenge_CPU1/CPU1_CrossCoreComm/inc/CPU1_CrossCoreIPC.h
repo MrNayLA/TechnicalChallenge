@@ -55,6 +55,8 @@ void CPU1_SendMessage_IPC(uint8_t ChannelNo,char *StartAddr, uint32_t DataSize);
 
 void CPU1_SendAck(uint8_t ChannelNo);
 
+void CPU1_Read_IPC_RegData(uint16_t ChannelNo, IPC_Msg_t* ptrIpcMsg);
+
 uint8_t CPU1_Release_IPC_Lock(uint8_t ChannelNo);
 
 

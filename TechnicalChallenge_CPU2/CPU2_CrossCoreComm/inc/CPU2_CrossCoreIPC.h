@@ -55,7 +55,10 @@ void CPU2_SendMessage_IPC(uint16_t ChannelNo,char *Addr, uint32_t DataSize);
 
 void CPU2_SendAck(uint16_t ChannelNo);
 
+void CPU2_Read_IPC_RegData(uint16_t ChannelNo, IPC_Msg_t* ptrIpcMsg);
+
 uint16_t CPU2_Release_IPC_Lock(uint16_t ChannelNo);
+
 
 
 #endif /* TECHNICALCHALLENGE_CPU2_CROSSCOREIPC_H_ */

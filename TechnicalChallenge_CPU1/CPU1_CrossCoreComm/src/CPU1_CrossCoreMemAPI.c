@@ -5,7 +5,6 @@
  *      Author: nayla
  */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -14,7 +13,7 @@
 #include "CPU1_CrossCoreOs.h"
 
 
-extern uint8_t Channel1_Ack;
+extern uint8_t u8Channel1_Ack;
 
 /* 8-bit addressable in CPU1 */
 uint8_t CPU1_WriteDataSharedMemory(char *dest, char *src, uint32_t ByteSize)
@@ -48,9 +47,9 @@ uint8_t CPU1_WriteDataSharedMemory(char *dest, char *src, uint32_t ByteSize)
 				Cnt++;
 
 				/* Channel1_Ack should be updated in the ISR. */
-				Channel1_Ack = 1;/* Manually set here to come out of the loop,. Otherwise, it stucks here! */
+				u8Channel1_Ack = 1;/* Manually set here to come out of the loop,. Otherwise, it stucks here! */
 
-			}while((Channel1_Ack != 1)||(Cnt >= 5000));
+			}while((u8Channel1_Ack != 1)||(Cnt >= 5000));
 			/* The above can be replaced with OS event in case of system with OS configuration. */
 
 			RetFlag = 1;
@@ -89,9 +88,9 @@ uint8_t CPU1_WriteDataSharedMemory(char *dest, char *src, uint32_t ByteSize)
 					Cnt++;
 
 					/* Channel1_Ack should be updated in the ISR. */
-					Channel1_Ack = 1;/* Manually set here to come out of the loop,. Otherwise, it stucks here! */
+					u8Channel1_Ack = 1;/* Manually set here to come out of the loop,. Otherwise, it stucks here! */
 
-				}while((Channel1_Ack != 1)||(Cnt >= 5000));
+				}while((u8Channel1_Ack != 1)||(Cnt >= 5000));
 				/* The above can be replaced with OS event in case of system with OS configuration. */
 
 				RetFlag = 1;
@@ -126,9 +125,9 @@ uint8_t CPU1_WriteDataSharedMemory(char *dest, char *src, uint32_t ByteSize)
 					Cnt++;
 
 					/* Channel1_Ack should be updated in the ISR. */
-					Channel1_Ack = 1;/* Manually set here to come out of the loop,. Otherwise, it stucks here! */
+					u8Channel1_Ack = 1;/* Manually set here to come out of the loop,. Otherwise, it stucks here! */
 
-				}while((Channel1_Ack != 1)||(Cnt >= 5000));
+				}while((u8Channel1_Ack != 1)||(Cnt >= 5000));
 				/* The above can be replaced with OS event in case of system with OS configuration. */
 
 				RetFlag = 1;

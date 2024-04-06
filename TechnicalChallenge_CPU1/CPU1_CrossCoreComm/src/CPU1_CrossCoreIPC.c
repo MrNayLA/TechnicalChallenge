@@ -11,14 +11,16 @@
 
 #include "CPU1_CrossCoreIPC.h"
 
+IPC_Msg_t IpcMessage = {0};//IPC Msg buffer
 /**
+* Hard-dependancy:
 * Assume that the device has Inter-Processor Communication (IPC) channels as an underlying hardware layer
 * since it is a dual-core system.
 **/
 
 void CPU1_IPC_Init(uint8_t ChannelNo)
 {
-	//The configuration here is hardware-dependent.
+	//The configuration here is hardware-dependant.
 }
 
 uint8_t CPU1_Acquire_IPC_Lock(uint8_t ChannelNo)
@@ -60,9 +62,20 @@ void CPU1_SendAck(uint8_t ChannelNo)
 
 	/* Write into the IPC registers.This should be implemented only in real system.  */
 	//*IPC_DataReg1 = (uint32_t)IpcMsg.ptrMessage;
-	//*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16) || ((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff));
+	//*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16) | ((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff));
 
 }
+
+/* Read data from IPC's data registers. */
+void CPU1_Read_IPC_RegData(uint16_t ChannelNo, IPC_Msg_t* ptrIpcMsg)
+{
+	/* This register read can only be performed in actual system. */
+	//ptrIpcMsg->ptrMessage = (const char *)(*IPC_DataReg1);
+	//ptrIpcMsg->MsgInfo.bit_view.MessageSize = (*IPC_DataReg2 & 0xffff);
+	//ptrIpcMsg->MsgInfo.bit_view.Identifier = ((*IPC_DataReg2 >> 16) & 0xffff);
+
+}
+
 
 uint8_t CPU1_Release_IPC_Lock(uint8_t ChannelNo)
 {
@@ -105,8 +118,8 @@ uint8_t CPU1_Check_IPC_Release(uint8_t ChannelNo)
 }
 
 /****************************************/
-uint8_t Channel1_Noti = 0;
-uint8_t Channel1_Ack = 0;
+uint8_t u8Channel1_Noti = 0;
+uint8_t u8Channel1_Ack = 0;
 
 //Dummy implementation of ISR functions
 void ISR_from_IPC_Channel0(void)
@@ -114,6 +127,7 @@ void ISR_from_IPC_Channel0(void)
 	if(1 /* if notify status is set in the HW register. */)
 	{
 		CPU1_Check_IPC_Notification(0);//Acknowledge
+		CPU1_Read_IPC_RegData(0, &IpcMessage);
 	}
 
 	if(1 /* if release status is set in the HW register. */)
@@ -127,12 +141,13 @@ void ISR_from_IPC_Channel1(void)
 {
 	if(1 /* if notify status is set in the HW register. */)
 	{
-		Channel1_Noti = CPU1_Check_IPC_Notification(1);//Acknowledge
+		u8Channel1_Noti = CPU1_Check_IPC_Notification(1);//Notify
+		CPU1_Read_IPC_RegData(1, &IpcMessage);
 	}
 
 	if(1 /* if release status is set in the HW register. */)
 	{
-		Channel1_Ack = CPU1_Check_IPC_Release(1);//Acknowledge
+		u8Channel1_Ack = CPU1_Check_IPC_Release(1);//Acknowledge
 	}
 
 }
@@ -142,6 +157,7 @@ void ISR_from_IPC_Channel2(void)
 	if(1 /* if notify status is set in the HW register. */)
 	{
 		CPU1_Check_IPC_Notification(2);//Acknowledge
+		CPU1_Read_IPC_RegData(2, &IpcMessage);
 	}
 
 	if(1 /* if release status is set in the HW register. */)
@@ -156,6 +172,7 @@ void ISR_from_IPC_Channel3(void)
 	if(1 /* if notify status is set in the HW register. */)
 	{
 		CPU1_Check_IPC_Notification(3);//Acknowledge
+		CPU1_Read_IPC_RegData(3, &IpcMessage);
 	}
 
 	if(1 /* if release status is set in the HW register. */)
