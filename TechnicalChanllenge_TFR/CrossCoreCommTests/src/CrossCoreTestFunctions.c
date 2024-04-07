@@ -40,7 +40,7 @@ volatile char cpu2_UserBuffer[sizeof(cpu2_Source)*2];/* This is user's buffer to
 extern uint8_t CPU1_TestLockStatus;
 extern uint8_t CPU2_TestLockStatus;
 
-extern IPC_Msg_t IpcMessage;
+extern IPC_Msg_t CPU2_IpcMessage;
 
 /*******************************************
  * Must declare setUp() & tearDown functions
@@ -58,8 +58,8 @@ void setUp(void)
 	//To simulate to get updated data from IPC registers.
 	// Assume that CPU2_ISR_from_IPC_Channel1() has been called and serviced.
 	// The below variables will be updated there.
-	IpcMessage.ptrMessage = &cpu2_Source;
-	IpcMessage.MsgInfo.bit_view.MessageSize = sizeof(cpu2_Source);
+	CPU2_IpcMessage.ptrMessage = &cpu2_Source;
+	CPU2_IpcMessage.MsgInfo.bit_view.MessageSize = sizeof(cpu2_Source);
 
 	/************************************************************/
 
@@ -144,7 +144,7 @@ void Test2_1_ReadFromSharedMemory(void)
 	CPU2_TestLockStatus = 1;//Simulated IPC channel Lock.
 
 	//u16RetVal = CPU2_ReadSharedMemory(&cpu2_UserBuffer, &cpu2_Source, sizeof(cpu2_Source));
-	u16RetVal = CPU2_ReadSharedMemory(&cpu2_UserBuffer, IpcMessage.ptrMessage, IpcMessage.MsgInfo.bit_view.MessageSize);
+	u16RetVal = CPU2_ReadSharedMemory(&cpu2_UserBuffer, CPU2_IpcMessage.ptrMessage, CPU2_IpcMessage.MsgInfo.bit_view.MessageSize);
 
 	CPU2_TestLockStatus = 0;//Simulated IPC channel Unlock.
 
@@ -208,7 +208,7 @@ void Test2_3_ReadFromSharedMemory(void)
 	CPU2_TestLockStatus = 0;//Simulated IPC channel Unlock.
 
 	//u16RetVal = CPU2_ReadSharedMemory(&cpu2_UserBuffer, &cpu2_Source, sizeof(cpu2_Source));
-	u16RetVal = CPU2_ReadSharedMemory(&cpu2_UserBuffer, IpcMessage.ptrMessage, IpcMessage.MsgInfo.bit_view.MessageSize);
+	u16RetVal = CPU2_ReadSharedMemory(&cpu2_UserBuffer, CPU2_IpcMessage.ptrMessage, CPU2_IpcMessage.MsgInfo.bit_view.MessageSize);
 
 	CPU2_TestLockStatus = 0;//Simulated IPC channel Unlock.
 

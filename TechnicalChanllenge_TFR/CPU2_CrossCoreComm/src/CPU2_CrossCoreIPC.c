@@ -12,7 +12,7 @@
 #include "CPU2_CrossCoreIPC.h"
 
 uint16_t CPU2_TestLockStatus = 1;//Used for mock test Only
-IPC_Msg_t IpcMessage = {0};//IPC Msg buffer
+IPC_Msg_t CPU2_IpcMessage = {0};//IPC Msg buffer
 
 /**
 * Hard-dependancy:
@@ -66,11 +66,11 @@ void CPU2_SendAck(uint16_t ChannelNo)
 
 	IpcMsg.ptrMessage = 0;/* Starting address of data to be sent via IPC */
 	IpcMsg.MsgInfo.bit_view.MessageSize = 0;/* data size */
-	IpcMsg.MsgInfo.bit_view.Identifier = enSendAck;/* Identifier */
+	IpcMsg.MsgInfo.bit_view.Identifier = enSendAck;/* Just send Identifier to signal acknowledgement. */
 
-	/* Write into the IPC registers. This should be implemented only in real system. */
+	/* Write into the IPC registers.This should be implemented only in real system. */
 	//*IPC_DataReg1 = (uint32_t)IpcMsg.ptrMessage;
-	//*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16) | ((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff));
+	//*IPC_DataReg2 = (((uint32_t)IpcMsg.MsgInfo.bit_view.Identifier << 16) || ((uint32_t)IpcMsg.MsgInfo.bit_view.MessageSize & 0xffff));
 
 }
 
@@ -136,12 +136,12 @@ void CPU2_ISR_from_IPC_Channel0(void)
 	{
 		CPU2_Check_IPC_Notification(0);//Acknowledge
 
-		CPU2_Read_IPC_RegData(0, &IpcMessage);//Do outside?
+		CPU2_Read_IPC_RegData(0, &CPU2_IpcMessage);//Do outside?
 	}
 
 	if(1 /* if release status is set in the HW register. */)
 	{
-		CPU2_Check_IPC_Release(0);//Acknowledge
+		u16Channel1_Ack = CPU2_Check_IPC_Release(0);//Acknowledge
 	}
 
 }
@@ -154,7 +154,7 @@ void CPU2_ISR_from_IPC_Channel1(void)
 	{
 		u16Channel1_Noti = CPU2_Check_IPC_Notification(1);//Notify
 
-		CPU2_Read_IPC_RegData(1, &IpcMessage);//Do outside?
+		CPU2_Read_IPC_RegData(1, &CPU2_IpcMessage);
 	}
 
 	if(1 /* if release status is set in the HW register. */)
@@ -170,12 +170,12 @@ void CPU2_ISR_from_IPC_Channel2(void)
 	{
 		CPU2_Check_IPC_Notification(2);//Acknowledge
 
-		CPU2_Read_IPC_RegData(2, &IpcMessage);//Do outside?
+		CPU2_Read_IPC_RegData(2, &CPU2_IpcMessage);
 	}
 
 	if(1 /* if release status is set in the HW register. */)
 	{
-		CPU2_Check_IPC_Release(2);//Acknowledge
+		u16Channel1_Ack = CPU2_Check_IPC_Release(2);//Acknowledge
 	}
 
 }
@@ -186,12 +186,12 @@ void CPU2_ISR_from_IPC_Channel3(void)
 	{
 		CPU2_Check_IPC_Notification(3);//Acknowledge
 
-		CPU2_Read_IPC_RegData(3, &IpcMessage);//Do outside?
+		CPU2_Read_IPC_RegData(3, &CPU2_IpcMessage);
 	}
 
 	if(1 /* if release status is set in the HW register. */)
 	{
-		CPU2_Check_IPC_Release(3);//Acknowledge
+		u16Channel1_Ack = CPU2_Check_IPC_Release(3);//Acknowledge
 	}
 
 }
