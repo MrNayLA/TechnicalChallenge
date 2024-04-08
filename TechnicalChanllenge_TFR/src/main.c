@@ -15,8 +15,8 @@
 
 #include "unity.h"
 
-#include "CPU1_CrossCOreMemAPI.h"
-#include "CPU2_CrossCOreMemAPI.h"
+#include "CPU1_CrossCoreMemAPI.h"
+#include "CPU2_CrossCoreMemAPI.h"
 #include "CrossCoreTestFunctions.h"
 
 

@@ -70,10 +70,10 @@ void tearDown(void)
 {
 	//Nothing to do for now
 	/* Clear test memories after test. */
-	//memset((void *)&cpu1_source,0,sizeof(cpu1_source));
-	//memset((void *)&cpu1_destination,0,sizeof(cpu1_destination));
-	//memset((void *)&cpu2_Source,0,sizeof(cpu2_Source));
-	//memset((void *)&cpu2_UserBuffer,0,sizeof(cpu2_UserBuffer));
+	memset((void *)&cpu1_source,0,sizeof(cpu1_source));
+	memset((void *)&cpu1_destination,0,sizeof(cpu1_destination));
+	memset((void *)&cpu2_Source,0,sizeof(cpu2_Source));
+	memset((void *)&cpu2_UserBuffer,0,sizeof(cpu2_UserBuffer));
 }
 /**************************/
 
