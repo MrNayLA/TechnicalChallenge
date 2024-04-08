@@ -23,7 +23,7 @@ OBJS += \
 CPU2_CrossCoreComm/src/%.o: ../CPU2_CrossCoreComm/src/%.c CPU2_CrossCoreComm/src/subdir.mk
 	@echo 'Building file: $<'
 	@echo 'Invoking: GCC C Compiler'
-	gcc -I/Users/nayla/eclipse-workspace64_C_C++/TechnicalChallenge_CPU2/CPU2_CrossCoreComm/inc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
+	gcc -I../../TechnicalChallenge_CPU2/CPU2_CrossCoreComm/inc -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 
